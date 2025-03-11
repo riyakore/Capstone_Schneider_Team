@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
-import '@trimblemaps/trimble-maps/dist/trimble-maps.css';
+import TrimbleMaps from '@trimblemaps/trimblemaps-js';
 
 function MapInterface() {
     const mapContainer = useRef(null);
@@ -9,26 +9,23 @@ function MapInterface() {
 
     useEffect(() => {
         const initMap = async () => {
-            const { default: trimblemaps } = await import('@trimblemaps/trimble-maps');
+            TrimbleMaps.APIKey=import.meta.env.VITE_FPC_API_KEY;
+        
+            const newMap = new TrimbleMaps.Map({
+                container: 'map',
+                style: TrimbleMaps.Common.Style.TRANSPORTATION,
+                center: [-89.38622, 43.07475],
+                zoom: zoom,
+            });
 
-            if (mapContainer.current && !map) {
-                const newMap = new trimblemaps.Map({
-                    container: mapContainer.current,
-                    style: trimblemaps.Style.TRANSPORTATION,
-                    center: [-98.5795, 39.8283],
-                    zoom: zoom,
-                    apiKey: process.env.REACT_APP_TRIMBLE_MAPS_API_KEY
-                });
+            newMap.addControl(new TrimbleMaps.NavigationControl(), 'top-right');
+            newMap.addControl(new TrimbleMaps.FullscreenControl(), 'top-right');
 
-                newMap.addControl(new trimblemaps.NavigationControl(), 'top-right');
-                newMap.addControl(new trimblemaps.FullscreenControl(), 'top-right');
+            newMap.on('moveend', () => {
+                setZoom(newMap.getZoom());
+            });
 
-                newMap.on('moveend', () => {
-                    setZoom(newMap.getZoom());
-                });
-
-                setMap(newMap);
-            }
+            setMap(newMap);
         };
 
         initMap();
@@ -49,14 +46,14 @@ function MapInterface() {
 
     const addMarker = (coords) => {
         if (map) {
-            const marker = new trimblemaps.Marker().setLngLat(coords).addTo(map);
+            const marker = new TrimbleMaps.Marker().setLngLat(coords).addTo(map);
             setMarkers(prev => [...prev, marker]);
         }
     };
 
     return (
         <div className="w-full h-[600px] relative">
-            <div ref={mapContainer} className="w-full h-full rounded-lg shadow-xl"/>
+            <div id='map' className="w-full h-full rounded-lg shadow-xl"/>
 
             <div className="absolute top-4 left-4 bg-white p-2 rounded-md shadow-md">
                 <span className="font-semibold"> Zoom: {zoom.toFixed(2)}</span>
