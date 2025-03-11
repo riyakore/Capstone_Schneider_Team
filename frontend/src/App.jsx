@@ -1,11 +1,18 @@
 import { useState } from 'react'
+import Header from './components/Header';
+import ChooseLocationsPage from './pages/ChooseLocationsPage';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   return (
-    <div className="bg-primary">
-      hello
+    <div >
+      <Header/>
+      <ChooseLocationsPage 
+        startDate={startDate} setStartDate={setStartDate}
+        endDate={endDate} setEndDate={setEndDate}
+        />
     </div>
   )
 }
