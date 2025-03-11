@@ -6,11 +6,9 @@ import { CiCalendar } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 
-function CalendarButton() {
-    const [selectedDate, setSelectedDate] = useState("");
+function CalendarButton({selectedDate, setSelectedDate}) {
     const [currentMonth, setCurrentMonth] = useState(Date.now());
     const [showCalendar, setShowCalendar] = useState(false);
-    console.log(currentMonth)
 
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(currentMonth);
@@ -24,7 +22,7 @@ function CalendarButton() {
 
     const handleDateClick = (date) => {
         if (!isBefore(date, new Date())) {
-            setSelectedDate(date);
+            setSelectedDate(date.toDateString());
             setShowCalendar(false);
         }
     }
