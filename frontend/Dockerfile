@@ -5,8 +5,8 @@
 FROM node:16 as build
 
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install
+COPY package.json npm.lock ./
+RUN npm install
 
 # Copy the rest of your frontend code
 COPY . .
