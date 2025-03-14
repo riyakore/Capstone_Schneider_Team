@@ -39,6 +39,6 @@ newgrp docker
 ```console
 docker run hello-world
 ```
-Now you can run docker without the sudo commands!
+Now you can run docker without the sudo!
 
 2. 
