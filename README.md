@@ -4,10 +4,12 @@ CS 620 - Computer Science Capstone - Schneider Team
 
 ## Platforms used:
 - Frontend - React + Vite
-- Backend + Database - Django
+- Backend - Django
+- Database - PostgreSQL
 - Integration and environment setup - Docker
 
 ## Project Description:
 Describe the project here!
 
-## 
+## Steps to set up docker for your computer:
+1. 
