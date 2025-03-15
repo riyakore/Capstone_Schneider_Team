@@ -42,3 +42,38 @@ docker run hello-world
 Now you can run docker without the sudo!
 
 2. 
+
+remove existing docker images and containers for cleanup
+```console
+docker-compose down --rmi all -v
+```
+
+build all the docker images
+```console
+docker-compose build
+```
+start all the containers for frontend, backend and database
+```console
+docker-compose up
+```
+
+running the migrations
+```console
+docker-compose exec backend python manage.py makemigrations
+docker-compose exec backend python manage.py migrate
+```
+
+adding the data to the database
+```console
+docker-compose exec backend python manage.py import_loadposting /app/data/loadpostingDump.xlsx
+docker-compose exec backend python manage.py import_loadposting /app/data/load_posting\ 1.csv
+
+docker-compose exec backend python manage.py import_loadstop /app/data/loadstop \dump.xlsx
+docker-compose exec backend python manage.py import_loadstop /app/data/load_stop\ 1.csv
+```
+
+regenerating the pipfile.lock file
+```console
+pipenv lock
+```
+
