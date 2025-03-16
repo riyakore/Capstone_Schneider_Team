@@ -27,12 +27,14 @@ services:
       DB_PASS: mypass
       DB_HOST: db
       DB_PORT: 5432
-      # Add other environment variables as needed (e.g. TRIMBLE_MAPS_API_KEY, etc.)
-      # add the .env file api key here
 
   frontend:
-    build: ./frontend
     container_name: my_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_FPC_API_KEY: ${VITE_FPC_API_KEY}
     volumes:
       - ./frontend:/app
     ports:

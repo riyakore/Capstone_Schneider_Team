@@ -65,16 +65,25 @@ docker-compose build
 ```console
 docker-compose up
 ```
-This will start all the docker containers. You will have to keep this screen of the terminal going and work on a new screen.
+This will start all the docker containers. You will have to keep this screen of the terminal going and work on a new screen. If you don't want the logs to show up when you start the containers, you can use:
+```console
+docker-compose up -d
+```
+This will make it run in detached mode, so your terminal is free. But I recommend the first one because you can see are the errors or warnings when your code is running.
 
 You can type in http://localhost:3000/ to get the visualization of the frontend on a web browser. The backend can be accessed on http://localhost:8000/admin/ but you have to login as a super user. Once you login, you will be able to see the Django Site Administration. This is very useful to see your database. 
 
 ## Importing the data from the datafiles to the database.
 
-running the migrations
+1. Running the migrations.
 ```console
-docker-compose exec backend python manage.py makemigrations
+<!-- docker-compose exec backend python manage.py makemigrations -->
 docker-compose exec backend python manage.py migrate
+```
+
+2. Create a super user.
+```console
+docker-compose exec backend python manage.py createsuperuser
 ```
 
 adding the data to the database
