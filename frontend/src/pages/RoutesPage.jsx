@@ -1,16 +1,6 @@
-<<<<<<< HEAD
-import {useState, useEffect} from 'react';
-import Header from '../components/Header';
-import MapInterface from '../components/MapInterface';
-
-function RoutesPage() {
-    return (
-        <div>
-            <MapInterface className="w-full h-1/3"/>
-        </div>
-    )
-=======
+// after you press search
 import React, { useState } from "react";
+import MapInterface from "../components/MapInterface";
 
 export default function RoutesPage() {
   const [expandedCard, setExpandedCard] = useState(null);
@@ -145,12 +135,11 @@ export default function RoutesPage() {
       </div>
       <div style={{flex:1,height:"100%"}}>
         <div style={{height:"100%",border:"3px dashed #aaa",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:"bold",fontSize:"1.1rem",backgroundColor:"#fff"}}>
-          Placeholder for Map
+          <MapInterface></MapInterface>
         </div>
       </div>
     </div>
   );
->>>>>>> 9a621fb283afcdfd971969b423d10fa31f2260ca
 }
 
 function ExpandedDetails({ route, onBackClick, onBookClick }) {

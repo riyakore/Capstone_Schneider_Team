@@ -24,9 +24,9 @@ function App() {
         />
       )}
 
-      <MapInterface>
+      {/* <MapInterface>
         
-      </MapInterface>
+      </MapInterface> */}
       <div style={{ marginTop: "1rem" }}>
         <button onClick={() => setShowRoutes(false)}>Show Locations Page</button>
         <button onClick={() => setShowRoutes(true)}>Show Routes Page</button>

@@ -52,7 +52,7 @@ function MapInterface() {
     };
 
     return (
-        <div className="w-full h-[600px] relative">
+        <div className="w-full h-full relative">
             <div id='map' className="w-full h-full rounded-lg shadow-xl"/>
 
             <div className="absolute top-4 left-4 bg-white p-2 rounded-md shadow-md">

@@ -1,3 +1,5 @@
+// choose locations or the very first page
+
 import {useState, useEffect} from 'react';
 import CalendarButton from '../components/CalendarButton';
 import CitySearchBox from '../components/CitySearchBox';
@@ -63,7 +65,7 @@ function ChooseLocationsPage() {
                             <CalendarButton selectedDate={endDate} setSelectedDate={setEndDate}/>
                             <span>{endDate}</span>
                         </div>
-                   </div>
+                </div>
                 </div>
                 <p className="font-bold text-lg">Location</p>
                 <div className="p-2 border-2 border-grey-500 rounded-md">
@@ -87,8 +89,8 @@ function ChooseLocationsPage() {
                     </div>
                 </div>
             </div>
-            <MapInterface></MapInterface>
-           <button className="bg-primary w-1/2 rounded-lg mt-5 text-white font-bold text-xl hover:cursor-pointer hover:scale-105 duration-[0.1s]">Search</button>
+            {/* <MapInterface></MapInterface> */}
+        <button className="bg-primary w-1/2 rounded-lg mt-5 text-white font-bold text-xl hover:cursor-pointer hover:scale-105 duration-[0.1s]">Search</button>
         </div>
     )
 }
