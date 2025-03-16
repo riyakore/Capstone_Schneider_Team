@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import math
 from django.core.management.base import BaseCommand
 from backendapp.models import LoadPosting
 
@@ -28,9 +29,18 @@ class Command(BaseCommand):
             load_id = str(row.get('LOAD_ID', ''))
             if not load_id:
                 continue  # skip rows without a LOAD_ID
+            
+            def parse_float(val):
+                if pd.isnull(val):
+                    return None
+                float_val = float(val)
+                
+                if math.isinf(float_val) or math.isnan(float_val):
+                    return None
+                return float_val
 
             # convert booleans (like HAS_APPOINTMENTS) from "TRUE"/"FALSE" or 0/1
-            def to_bool(val):
+            def parse_bool(val):
                 if isinstance(val, bool):
                     return val
                 if str(val).lower() in ['true', '1']:
@@ -48,13 +58,13 @@ class Command(BaseCommand):
                 defaults={
                     'posting_status': row.get('POSTING_STATUS'),
                     'source_system': row.get('SOURCE_SYSTEM'),
-                    'has_appointments': to_bool(row.get('HAS_APPOINTMENTS')),
-                    'is_hazardous': to_bool(row.get('IS_HAZARDOUS')),
-                    'is_high_value': to_bool(row.get('IS_HIGH_VALUE')),
-                    'is_temperature_controlled': to_bool(row.get('IS_TEMPERATURE_CONTROLLED')),
-                    'total_distance': row.get('TOTAL_DISTANCE'),
+                    'has_appointments': parse_bool(row.get('HAS_APPOINTMENTS')),
+                    'is_hazardous': parse_bool(row.get('IS_HAZARDOUS')),
+                    'is_high_value': parse_bool(row.get('IS_HIGH_VALUE')),
+                    'is_temperature_controlled': parse_bool(row.get('IS_TEMPERATURE_CONTROLLED')),
+                    'total_distance': parse_float(row.get('TOTAL_DISTANCE')),
                     'distance_uom': row.get('DISTANCE_UOM'),
-                    'total_weight': row.get('TOTAL_WEIGHT'),
+                    'total_weight': parse_float(row.get('TOTAL_WEIGHT')),
                     'weight_uom': row.get('WEIGHT_UOM'),
                     'number_of_stops': row.get('NUMBER_OF_STOPS'),
                     'transport_mode': row.get('TRANSPORT_MODE'),
@@ -62,12 +72,12 @@ class Command(BaseCommand):
                     'updated_date': parse_date(row.get('UPDATED_DATE')),
                     'managed_equipment': row.get('MANAGED_EQUIPMENT'),
                     'load_number_alias': row.get('LOAD_NUMBER_ALIAS'),
-                    'is_carb': to_bool(row.get('IS_CARB')),
-                    'fpc': to_bool(row.get('FPC')),
-                    'fpo': to_bool(row.get('FPO')),
+                    'is_carb': parse_bool(row.get('IS_CARB')),
+                    'fpc': parse_bool(row.get('FPC')),
+                    'fpo': parse_bool(row.get('FPO')),
                     'division': row.get('DIVISION'),
                     'capacity_type': row.get('CAPACITY_TYPE'),
-                    'extended_network': to_bool(row.get('EXTENDED_NETWORK')),
+                    'extended_network': parse_bool(row.get('EXTENDED_NETWORK')),
                 }
             )
 
