@@ -1,7 +1,6 @@
 import {useState, useEffect } from 'react';
 
-const CitySearchBox = () => {
-    const [query, setQuery] = useState("");
+const CitySearchBox = ({query, setQuery}) => {
     const [suggestions, setSuggestions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedCity, setSelectedCity] = useState(null);
