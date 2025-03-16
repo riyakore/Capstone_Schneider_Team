@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+import {useState, useEffect} from 'react';
+import Header from '../components/Header';
+import MapInterface from '../components/MapInterface';
+
+function RoutesPage() {
+    return (
+        <div>
+            <MapInterface className="w-full h-1/3"/>
+        </div>
+    )
+=======
 import React, { useState } from "react";
 
 export default function RoutesPage() {
@@ -138,6 +150,7 @@ export default function RoutesPage() {
       </div>
     </div>
   );
+>>>>>>> 9a621fb283afcdfd971969b423d10fa31f2260ca
 }
 
 function ExpandedDetails({ route, onBackClick, onBookClick }) {
