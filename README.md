@@ -51,6 +51,9 @@ For this project, we have two main dockerfiles with all their respective depende
 ```console
 docker-compose down --rmi all -v
 ```
+```console
+docker system prune -a
+```
 
 2. Build all the docker images. Run this in the root directory of your repository.
 ```console
@@ -89,4 +92,6 @@ docker-compose exec backend python manage.py import_loadstop /app/data/load_stop
 ```console
 pipenv lock
 ```
+
+add the api key to the frontend .env file and have to dockerfile look for that in the frontend folder. 
 
