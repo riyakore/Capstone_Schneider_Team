@@ -17,7 +17,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from backendapp.views import LoadPostingListView, LoadPostingDetailView, search_load_postings
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path('admin/', admin.site.urls),
+    path('api/load-postings/', LoadPostingListView.as_view(), name='loadposting-list'),
+    path('api/load-postings/<str:load_id>/', LoadPostingDetailView.as_view(), name='loadposting-detail'),
+    path('api/search-loads/', search_load_postings, name='search-load-postings'),
 ]
