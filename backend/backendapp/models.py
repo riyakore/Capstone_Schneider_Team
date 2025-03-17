@@ -26,7 +26,7 @@ class LoadPosting(models.Model):
     created_date = models.DateTimeField(blank=True, null=True)
     updated_date = models.DateTimeField(blank=True, null=True)
     
-    managed_equipment = models.CharField(max_length=50, blank=True, null=True)
+    managed_equipment = models.BooleanField(max_length=50, blank=True, null=True)
     
     load_number_alias = models.CharField(max_length=100, blank=True, null=True)
     

@@ -70,7 +70,7 @@ class Command(BaseCommand):
                     'transport_mode': row.get('TRANSPORT_MODE'),
                     'created_date': parse_date(row.get('CREATED_DATE')),
                     'updated_date': parse_date(row.get('UPDATED_DATE')),
-                    'managed_equipment': row.get('MANAGED_EQUIPMENT'),
+                    'managed_equipment': parse_bool('MANAGED_EQUIPMENT'),
                     'load_number_alias': row.get('LOAD_NUMBER_ALIAS'),
                     'is_carb': parse_bool(row.get('IS_CARB')),
                     'fpc': parse_bool(row.get('FPC')),
