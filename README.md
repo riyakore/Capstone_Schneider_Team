@@ -9,7 +9,23 @@ CS 620 - Computer Science Capstone - Schneider Team
 - Integration and environment setup - Docker, GitHub
 
 ## Project Description:
-We are implementing a web app for Schneider FreightPower's Owner Operators. Here, the users can search for freight using a search engine along with a map that shows them how their route would look like.
+Schneider National, Inc. is a leading logistics company that connects shippers and carriers through a comprehensive range of services. In this project, Schneider FreightPower's Owner Operators, a digital platform offered by Schneider National, aims to streamline shipping operations with a map-based solution. This enhancement allows users, primarily truck drivers, to search for trips based on specific criteria and view the results on an interactive map. The solution helps users identify the most relevant routes and optimize their shipping processes.
+
+## How We Identified the Pain Points
+We conducted interviews with the Schneider team to gain insights into the challenges faced by truck drivers. Through these discussions, we identified key pain points and determined the types of information that would be most useful in addressing those issues.
+
+## Search Page Features:
+- Drivers have the flexibility to choose a pick-up date and an end date, or select only a pick-up or end date.
+- Drivers can choose both pick-up and destination, or opt for pick-up only or destination only.
+- To minimize system load, if users choose only a pick-up or destination, they should select a city rather than a state.
+- It's crucial to allow users to search within a radius around the selected locations.
+- Users can save their search settings for future use.
+
+## Result Page Features:
+- Users can view key information, such as potential earnings, distance, estimated time, and load type.
+- Users can sort results by destination and load type.
+- The origin and destination for the selected route will be displayed.
+- Detailed route information, including gas stations and rest stops, is essential for users.
 
 ## Current Work Completed
 The basic search functionality for the loads and stops has been implemented.
