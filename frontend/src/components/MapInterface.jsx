@@ -7,6 +7,28 @@ function MapInterface() {
     const [zoom, setZoom] = useState(12);
     const [markers, setMarkers] = useState([]);
 
+    // useEffect(() => {
+    //     if (map && originCoords && destCoords) {
+    //       // Suppose originCoords = [lng, lat], destCoords = [lng, lat]
+    //       // We can call Trimble's route API
+    //     TrimbleMaps.APIKey = import.meta.env.VITE_FPC_API_KEY;
+    //     const routeOptions = {
+    //         stops: [
+    //         { lat: originCoords[1], lon: originCoords[0] },
+    //         { lat: destCoords[1], lon: destCoords[0] }
+    //         ],
+    //         // other route options
+    //     };
+    //     TrimbleMaps.Route(routeOptions)
+    //         .then((response) => {
+    //           // Add route line to the map
+    //         const routeLine = new TrimbleMaps.RouteLine({ routeResponse: response });
+    //         routeLine.addTo(map);
+    //         })
+    //         .catch((err) => console.error(err));
+    //     }
+    // }, [map, originCoords, destCoords]);
+
     useEffect(() => {
         const initMap = async () => {
             TrimbleMaps.APIKey=import.meta.env.VITE_FPC_API_KEY;

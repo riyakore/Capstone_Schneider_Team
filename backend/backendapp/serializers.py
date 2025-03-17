@@ -13,12 +13,33 @@ class LoadPostingSerializer(serializers.ModelSerializer):
     # The custom fields:
     origin = serializers.SerializerMethodField()
     destination = serializers.SerializerMethodField()
+    
+    # new fields that need to be added to the database
+    loaded_rpm = serializers.SerializerMethodField()
+    distance_final = serializers.SerializerMethodField() 
+    total_price = serializers.SerializerMethodField()
 
     class Meta:
         model = LoadPosting
         # This automatically includes all fields from the model,
         # plus our custom ones (origin, destination) and the stops.
+        # other methods also automatically included
         fields = '__all__'
+        
+    def get_loaded_rpm(self, obj):
+        return 25
+    
+    def get_distance_final(self, obj):
+        # If total_distance is null, return 216
+        if obj.total_distance is None:
+            return 216
+        
+        return obj.total_distance
+    
+    def get_total_price(self, obj):
+        # distance_final * loaded_rpm
+        distance = 216 if obj.total_distance is None else obj.total_distance
+        return distance * 25
 
     def get_origin(self, obj):
         """
@@ -43,11 +64,12 @@ class LoadPostingSerializer(serializers.ModelSerializer):
         """
         # Filter related stops for dropoffs and order by stop_sequence (ascending)
         drops = obj.stops.filter(stop_type='D').order_by('stop_sequence')
-        if drops.exists():
-            last_drop = drops.last()
-            return {
-                'city': last_drop.city,
-                'state': last_drop.state,
-                'postal_code': last_drop.postal_code,
+        return [
+            {
+                'city': d.city,
+                'state': d.state,
+                'postal_code': d.postal_code
             }
+            for d in drops
+        ]
         return None

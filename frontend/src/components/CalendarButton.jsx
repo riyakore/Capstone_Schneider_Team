@@ -1,3 +1,4 @@
+// removed the isDisabled feature from here to show past dates as well.
 import {useState} from 'react';
 import {format, startOfMonth, endOfMonth, eachDayOfInterval, 
     isSameMonth, isSameDay, addMonths, subMonths, isBefore,
@@ -64,7 +65,6 @@ function CalendarButton({selectedDate, setSelectedDate}) {
                         ))}
 
                         {daysInMonth.map(date => {
-                            //const isDisabled = isBefore(date, Date.now());
                             const isSelected = selectedDate && isSameDay(date, selectedDate);
                             const isCurrentMonth = isSameMonth(date, currentMonth);
 
