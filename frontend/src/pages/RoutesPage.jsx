@@ -105,11 +105,8 @@ export default function RoutesPage() {
           );
         })}
       </div>
-      <div style={{flex:1,height:"100%"}}>
-        <div style={{height:"100%",border:"3px dashed #aaa",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:"bold",fontSize:"1.1rem",backgroundColor:"#fff"}}>
-          <MapInterface></MapInterface>
-        </div>
-      </div>
+      <MapInterface/>
+      
     </div>
   );
 }
