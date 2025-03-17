@@ -71,7 +71,7 @@ function ChooseLocationsPage() {
                 <div className="p-2 border-2 border-grey-500 rounded-md">
                     <div className="flex mb-1">
                         <p className="font-bold">Origin:</p>
-                        <CitySearchBox/>
+                        <CitySearchBox query={origin} setQuery={setOrigin}/>
                     </div>
                     <div className="flex">
                         <FaLongArrowAltDown size={30}/>
@@ -85,7 +85,7 @@ function ChooseLocationsPage() {
                     </div>
                     <div className="flex mt-1">
                         <p className="font-bold">Destination:</p>
-                        <CitySearchBox/>
+                        <CitySearchBox query={destination} setQuery={setDestination}/>
                     </div>
                 </div>
             </div>
