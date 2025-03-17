@@ -1,8 +1,14 @@
-// after you press search
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MapInterface from "../components/MapInterface";
-import ExpandedCard from "../components/ExpandedCard";
-import Route from '../components/Route';
+import Route from "../components/Route";
+
+
+
+// // after you press search
+// import React, { useState, useEffect } from "react";
+// import MapInterface from "../components/MapInterface";
+// import ExpandedCard from "../components/ExpandedCard";
+// import Route from '../components/Route';
 
 
 const route_data = [
@@ -145,142 +151,55 @@ const route_data = [
 ];
 
 
-export default function RoutesPage() {
-// export default function RoutesPage({ routes }) {
+export default function RoutesPage({routes}) {
   const [expandedCard, setExpandedCard] = useState(null);
 
+  // Build subRoutes from route_data
   const subRoutes = [];
-  route_data.forEach((load) => {
-    load.destination.forEach((dest, index) => {
+
+  routes.forEach((load) => {
+    // 1) Find the single pickup stop
+    const pickupStop = load.stops.find((s) => s.stop_type === "P");
+
+    // 2) For each drop stop, build a sub-route
+    const dropStops = load.stops.filter((s) => s.stop_type === "D");
+    dropStops.forEach((dropStop) => {
       subRoutes.push({
-        // Inherit from the original load:
+        // Basic load info:
         load_id: load.load_id,
-        stops: load.stops,
-        origin: load.origin,
-        // This single sub-route has one destination object:
-        destination: dest,
-        loaded_rpm: load.loaded_rpm,
+        total_weight: load.total_weight,
+        weight_uom: load.weight_uom,
         distance_final: load.distance_final,
+        distance_uom:load.distance_uom,
+        loaded_rpm: load.loaded_rpm,
         total_price: load.total_price,
         is_hazardous: load.is_hazardous,
         is_high_value: load.is_high_value,
         is_temperature_controlled: load.is_temperature_controlled,
-        total_weight: load.total_weight,
-        
-        // etc. Add other fields as needed.
+        transport_mode: load.transport_mode,
+
+        // The single pickupStop
+        pickupStop: pickupStop || null,
+
+        // The single dropStop
+        dropStop: dropStop || null
       });
     });
   });
 
-  const handleToggle = (subRouteKey) => {
-    setExpandedCard((prev) => (prev === subRouteKey ? null : subRouteKey));
+  // Toggles expand/collapse
+  const handleToggle = (uniqueKey) => {
+    setExpandedCard((prev) => (prev === uniqueKey ? null : uniqueKey));
   };
-
-  // return (
-  //   <div style={{ display: "flex", width: "100%", height: "calc(100vh - 80px)" }}>
-  //     <div style={{ width: "45%", overflowY: "auto", padding: "1rem", backgroundColor: "#f5f5f5" }}>
-  //       {/* 
-  //         If routes is empty, show a message. Otherwise map each route.
-  //         If your backend returns e.g. route.load_id, we must use that as the key. 
-  //       */}
-  //       {routes.length === 0 ? (
-  //         <div>No results found.</div>
-  //       ) : (
-  //         routes.map((route) => {
-  //           const isExpanded = expandedCard === route.load_id;
-  //           return (
-  //             <Route
-  //               key={route.load_id}
-  //               route={route}
-  //               handleToggle={handleToggle}
-  //               isExpanded={isExpanded}
-  //               setExpandedCard={setExpandedCard}
-  //             />
-  //           );
-  //         })
-  //       )}
-
-  //       {/* Show raw JSON for debugging */}
-  //       <div style={{ marginTop: "1rem" }}>
-  //         <h2>Raw JSON Output</h2>
-  //         <pre
-  //           style={{
-  //             backgroundColor: "#eee",
-  //             padding: "1rem",
-  //             borderRadius: "4px",
-  //             fontSize: "0.9rem",
-  //             overflowX: "auto",
-  //           }}
-  //         >
-  //           {JSON.stringify(routes, null, 2)}
-  //         </pre>
-  //       </div>
-  //     </div>
-
-  //     <div style={{ flex: 1, height: "100%" }}>
-  //       <div
-  //         style={{
-  //           height: "100%",
-  //           border: "3px dashed #aaa",
-  //           display: "flex",
-  //           alignItems: "center",
-  //           justifyContent: "center",
-  //           fontWeight: "bold",
-  //           fontSize: "1.1rem",
-  //           backgroundColor: "#fff",
-  //         }}
-  //       >
-  //         <MapInterface />
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
-
-  // // old code
-  // return (
-  //   <div style={{ display: "flex", width: "100%", height: "calc(100vh - 80px)" }}>
-  //     <div style={{ width: "45%", overflowY: "auto", padding: "1rem", backgroundColor: "#f5f5f5" }}>
-  //       {routes.map((route) => {
-  //         const isExpanded = expandedCard === route.load_id; 
-  //         return (
-  //           <Route
-  //             key={route.load_id}
-  //             route={route}
-  //             handleToggle={handleToggle}
-  //             isExpanded={isExpanded}
-  //             setExpandedCard={setExpandedCard}
-  //           />
-  //         );
-  //       })}
-  //     </div>
-  //     <div style={{ flex: 1, height: "100%" }}>
-  //       <div
-  //         style={{
-  //           height: "100%",
-  //           border: "3px dashed #aaa",
-  //           display: "flex",
-  //           alignItems: "center",
-  //           justifyContent: "center",
-  //           fontWeight: "bold",
-  //           fontSize: "1.1rem",
-  //           backgroundColor: "#fff",
-  //         }}
-  //       >
-  //         <MapInterface />
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
-  // // old code
 
   return (
     <div className="flex w-full h-[calc(100vh-80px)]">
       {/* Left side: the list of sub-route cards */}
       <div className="w-[45%] overflow-y-auto p-4 bg-gray-50">
         {subRoutes.map((subRoute, idx) => {
-          // We'll use load_id + idx as a unique key
           const uniqueKey = `${subRoute.load_id}-${idx}`;
           const isExpanded = expandedCard === uniqueKey;
+
           return (
             <Route
               key={uniqueKey}
@@ -293,7 +212,7 @@ export default function RoutesPage() {
         })}
       </div>
 
-      {/* Right side: map placeholder */}
+      {/* Right side: the map */}
       <div style={{ flex: 1, height: "100%" }}>
         <div
           style={{
@@ -304,7 +223,7 @@ export default function RoutesPage() {
             justifyContent: "center",
             fontWeight: "bold",
             fontSize: "1.1rem",
-            backgroundColor: "#fff",
+            backgroundColor: "#fff"
           }}
         >
           <MapInterface />
@@ -312,30 +231,72 @@ export default function RoutesPage() {
       </div>
     </div>
   );
-
-
-  // previous code to display 
-  // return (
-  //   <div className="flex w-full h-[calc(100vh-80px)]">
-  //     <div className="w-[45%] overflow-y-auto p-4 bg-gray-50">
-  //       {route_data.map((route) => {
-  //         const isExpanded = expandedCard === route.load_id;
-  //         return (
-  //           <Route 
-  //             key={route.load_id}
-  //             route={route} 
-  //             handleToggle={handleToggle}
-  //             isExpanded={isExpanded}
-  //             setExpandedCard={setExpandedCard}
-  //           /> 
-  //         );
-  //       })}
-  //     </div>
-  //     <div style={{flex:1,height:"100%"}}>
-  //       <div style={{height:"100%",border:"3px dashed #aaa",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:"bold",fontSize:"1.1rem",backgroundColor:"#fff"}}>
-  //         <MapInterface></MapInterface>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 }
+
+//   const handleToggle = (subRouteKey) => {
+//     setExpandedCard((prev) => (prev === subRouteKey ? null : subRouteKey));
+//   };
+
+// query code
+
+//   // return (
+//   //   <div style={{ display: "flex", width: "100%", height: "calc(100vh - 80px)" }}>
+//   //     <div style={{ width: "45%", overflowY: "auto", padding: "1rem", backgroundColor: "#f5f5f5" }}>
+//   //       {/* 
+//   //         If routes is empty, show a message. Otherwise map each route.
+//   //         If your backend returns e.g. route.load_id, we must use that as the key. 
+//   //       */}
+//   //       {routes.length === 0 ? (
+//   //         <div>No results found.</div>
+//   //       ) : (
+//   //         routes.map((route) => {
+//   //           const isExpanded = expandedCard === route.load_id;
+//   //           return (
+//   //             <Route
+//   //               key={route.load_id}
+//   //               route={route}
+//   //               handleToggle={handleToggle}
+//   //               isExpanded={isExpanded}
+//   //               setExpandedCard={setExpandedCard}
+//   //             />
+//   //           );
+//   //         })
+//   //       )}
+
+//   //       {/* Show raw JSON for debugging */}
+//   //       <div style={{ marginTop: "1rem" }}>
+//   //         <h2>Raw JSON Output</h2>
+//   //         <pre
+//   //           style={{
+//   //             backgroundColor: "#eee",
+//   //             padding: "1rem",
+//   //             borderRadius: "4px",
+//   //             fontSize: "0.9rem",
+//   //             overflowX: "auto",
+//   //           }}
+//   //         >
+//   //           {JSON.stringify(routes, null, 2)}
+//   //         </pre>
+//   //       </div>
+//   //     </div>
+
+//   //     <div style={{ flex: 1, height: "100%" }}>
+//   //       <div
+//   //         style={{
+//   //           height: "100%",
+//   //           border: "3px dashed #aaa",
+//   //           display: "flex",
+//   //           alignItems: "center",
+//   //           justifyContent: "center",
+//   //           fontWeight: "bold",
+//   //           fontSize: "1.1rem",
+//   //           backgroundColor: "#fff",
+//   //         }}
+//   //       >
+//   //         <MapInterface />
+//   //       </div>
+//   //     </div>
+//   //   </div>
+//   // );
+
+// query code
