@@ -11,6 +11,9 @@ CS 620 - Computer Science Capstone - Schneider Team
 ## Project Description:
 We are implementing a web app for Schneider FreightPower's Owner Operators. Here, the users can search for freight using a search engine along with a map that shows them how their route would look like.
 
+## Current Work Completed
+The basic search functionality for the loads and stops has been implemented.
+
 ## Steps to set up docker for your computer:
 1. Check if you already have docker installed.
 ```console
@@ -60,7 +63,6 @@ docker system prune -a
 docker-compose build
 ```
 
-
 3. Start all the containers for frontend, backend and database. Run this in the root directory of your repository.
 ```console
 docker-compose up
@@ -75,24 +77,26 @@ You can type in http://localhost:3000/ to get the visualization of the frontend 
 
 ## Importing the data from the datafiles to the database.
 
+You need to run these instructions everytime you changed the code and you want to see your changes.
+
 1. Running the migrations.
 ```console
-<!-- docker-compose exec backend python manage.py makemigrations -->
 docker-compose exec backend python manage.py migrate
 ```
 
-2. Create a super user.
+2. Create a super user. (optional)
 ```console
 docker-compose exec backend python manage.py createsuperuser
 ```
+Only do this when you have removed the volumes.
 
-adding the data to the database
+3. Adding the data to the database
 ```console
-docker-compose exec backend python manage.py import_loadposting /app/data/loadpostingDump.xlsx
-docker-compose exec backend python manage.py import_loadposting /app/data/load_posting\ 1.csv
+docker-compose exec backend python manage.py import_loadposting /app/data/load_posting_dump.xlsx
+docker-compose exec backend python manage.py import_loadposting /app/data/load_posting.csv
 
-docker-compose exec backend python manage.py import_loadstop /app/data/loadstop \dump.xlsx
-docker-compose exec backend python manage.py import_loadstop /app/data/load_stop\ 1.csv
+docker-compose exec backend python manage.py import_loadstop /app/data/load_stop_dump.xlsx
+docker-compose exec backend python manage.py import_loadstop /app/data/load_stop.csv
 ```
 
 ## Extra commands in case you need them
@@ -101,6 +105,3 @@ docker-compose exec backend python manage.py import_loadstop /app/data/load_stop
 ```console
 pipenv lock
 ```
-
-add the api key to the frontend .env file and have to dockerfile look for that in the frontend folder. 
-
