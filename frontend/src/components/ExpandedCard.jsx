@@ -7,15 +7,12 @@ function ExpandedCard({ route, onBackClick, onBookClick }) {
     return (
     <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-gray-50 mt-4 border-t border-gray-200 p-4"
+        className="bg-gray-50 border-t border-gray-200 p-2"
     >
-        <div className="flex">
-        <div className="flex-1 mr-4">
-            <RateDetails route={route} />
-            <CommodityDetails route={route} />
-        </div>
+
         <LocationDetails route={route} />
-        </div>
+        <RateDetails route={route} />
+        <CommodityDetails route={route} />
 
         <div className="mt-4 flex gap-4">
         <button

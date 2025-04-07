@@ -1,10 +1,7 @@
-// choose locations or the very first page
-
 import {useState, useEffect} from 'react';
 import CalendarButton from '../components/CalendarButton';
 import CitySearchBox from '../components/CitySearchBox';
 import { FaLongArrowAltDown } from "react-icons/fa";
-import MapInterface from '../components/MapInterface';
 
 function ChooseLocationsPage({ startDate, setStartDate, endDate, setEndDate, onSearch }) {
     // const [startDate, setStartDate] = useState("");

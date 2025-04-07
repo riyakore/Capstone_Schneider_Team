@@ -110,11 +110,9 @@ Only do this when you have removed the volumes.
 
 3. Adding the data to the database
 ```console
-docker-compose exec backend python manage.py import_loadposting /app/data/load_posting_dump.xlsx
-docker-compose exec backend python manage.py import_loadposting /app/data/load_posting.csv
+docker-compose exec backend python manage.py import_loadposting /app/data/load_posting_dump.csv
 
-docker-compose exec backend python manage.py import_loadstop /app/data/load_stop_dump.xlsx
-docker-compose exec backend python manage.py import_loadstop /app/data/load_stop.csv
+docker-compose exec backend python manage.py import_loadstop /app/data/load_stop_dump.csv
 ```
 
 ## Extra commands in case you need them
