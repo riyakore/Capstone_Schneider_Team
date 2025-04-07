@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import LoadPosting, LoadStop
+from .models import LoadPosting, LoadStop, AppUser, Favorite
 
 class LoadStopSerializer(serializers.ModelSerializer):
     class Meta:

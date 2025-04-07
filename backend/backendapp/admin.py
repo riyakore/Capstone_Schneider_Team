@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import LoadPosting, LoadStop
+from .models import LoadPosting, LoadStop, AppUser, Favorite
 
-# Register your models here.
+# The models registered in here are the only ones that will be displayed on the backend admin site
 
 admin.site.register(LoadPosting)
 admin.site.register(LoadStop)
+admin.site.register(AppUser)
+admin.site.register(Favorite)

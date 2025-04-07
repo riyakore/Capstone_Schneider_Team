@@ -124,3 +124,11 @@ pipenv lock
 
 add the api key to the frontend .env file and have to dockerfile look for that in the frontend folder. 
 
+2. Re-executing backend if views or model code is changed:
+```console
+docker-compose restart backend
+docker-compose build backend
+docker-compose up -d
+docker-compose exec backend python manage.py migrate
+```
+

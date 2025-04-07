@@ -16,6 +16,7 @@ class Command(BaseCommand):
 
         # Decide how to read the file based on extension
         _, ext = os.path.splitext(file_path)
+        # can remove this statement - not using xlsx anymore
         if ext.lower() in ['.xlsx', '.xls']:
             df = pd.read_excel(file_path)
         elif ext.lower() == '.csv':
