@@ -14,6 +14,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.WARNING(f"Reading file: {file_path}"))
 
         _, ext = os.path.splitext(file_path)
+        # can remove this as well
         if ext.lower() in ['.xlsx', '.xls']:
             df = pd.read_excel(file_path)
         elif ext.lower() == '.csv':

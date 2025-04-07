@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+# add a new class for favorites 
+# add a new class for users
 
 # this is the load posting class which has information about each load
 class LoadPosting(models.Model):
@@ -71,4 +73,3 @@ class LoadStop(models.Model):
     
     def __str__(self):
         return f"{self.stop_type} Stop #{self.stop_sequence} for Load {self.load_posting.load_id}"
-    
