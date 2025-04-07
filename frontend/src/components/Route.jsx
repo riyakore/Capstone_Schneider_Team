@@ -14,9 +14,7 @@ function Route({route, handleToggle, isExpanded, setExpandedCard}) {
         className="border border-gray-300 rounded-lg mb-4 bg-white shadow-sm cursor-pointer"
         >
         <RouteHeader route={route} />
-        <RouteDetails route={route} />
-    
-        {isExpanded && (
+        {isExpanded ? (
             <ExpandedCard
             route={route}
             onBackClick={(e) => {
@@ -27,8 +25,8 @@ function Route({route, handleToggle, isExpanded, setExpandedCard}) {
                 e.stopPropagation();
                 alert(`Booking route with ID: ${route.load_id}`);
             }}
-            />
-        )}
+            />) : (
+            <RouteDetails route={route} />)}
         {/* {route.load_id} */}
         </div>
     );
