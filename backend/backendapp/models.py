@@ -84,12 +84,12 @@ class AppUser(models.Model):
     def __str__(self):
         return self.userid
     
+
 # this is the new model for favorites
 class Favorite(models.Model):
     user = models.ForeignKey(AppUser, related_name='favorites', on_delete=models.CASCADE)
     origin = models.CharField(max_length=100)
     destination = models.CharField(max_length=100)
-    # add additional filters as needed
     transport_mode = models.CharField(max_length=50, blank=True, null=True)
     capacity_type = models.CharField(max_length=50, blank=True, null=True)
     

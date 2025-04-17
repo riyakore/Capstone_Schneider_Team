@@ -3,13 +3,10 @@ import Header from './components/Header';
 import ChooseLocationsPage from './pages/ChooseLocationsPage';
 import RoutesPage from './pages/RoutesPage';
 
-// helper function to convert the date
 function formatAsYYYYMMDD(dateString) {
-  // Create a Date object from the string
   const dateObj = new Date(dateString);
-  // Extract year, month, and day
   const year = dateObj.getFullYear();
-  const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // getMonth() returns 0-indexed month
+  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
   const day = String(dateObj.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }

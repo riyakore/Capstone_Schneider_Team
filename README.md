@@ -132,3 +132,8 @@ docker-compose up -d
 docker-compose exec backend python manage.py migrate
 ```
 
+3. Entering a docker container
+```console
+docker exec -it my_frontend /bin/sh
+```
+
