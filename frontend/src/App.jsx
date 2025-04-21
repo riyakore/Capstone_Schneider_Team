@@ -12,6 +12,8 @@ function App() {
   const [showRoutes, setShowRoutes] = useState(false);
   const [routes, setRoutes] = useState([]);
 
+  const [originInput, setOriginInput] = useState("");
+
   const handleSearch = async (origin, destination) => {
 
     try {
@@ -50,6 +52,8 @@ function App() {
           endDate={endDate}
           setEndDate={setEndDate}
           onSearch={handleSearch}
+          originInput={originInput}
+          setOriginInput={setOriginInput}
         />
       )}
     </div>

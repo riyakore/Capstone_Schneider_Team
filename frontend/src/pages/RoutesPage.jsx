@@ -153,6 +153,7 @@ const route_data = [
 
 export default function RoutesPage({routes}) {
   const [expandedCard, setExpandedCard] = useState(null);
+  const [expandedRouteId, setExpandedRouteId] = useState(null);
 
   // Build subRoutes from route_data
   const subRoutes = [];
@@ -190,6 +191,7 @@ export default function RoutesPage({routes}) {
   // Toggles expand/collapse
   const handleToggle = (uniqueKey) => {
     setExpandedCard((prev) => (prev === uniqueKey ? null : uniqueKey));
+    setExpandedRouteId((prev) => (prev === uniqueKey ? null : uniqueKey));
   };
 
   return (
@@ -211,7 +213,7 @@ export default function RoutesPage({routes}) {
           );
         })}
       </div>
-      <MapInterface/>
+      <MapInterface routes={subRoutes} expandedRouteId={expandedRouteId}/>
       </div>
   );
 }

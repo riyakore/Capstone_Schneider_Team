@@ -3,7 +3,7 @@ import CalendarButton from '../components/CalendarButton';
 import CitySearchBox from '../components/CitySearchBox';
 import { FaLongArrowAltDown } from "react-icons/fa";
 
-function ChooseLocationsPage({ startDate, setStartDate, endDate, setEndDate, onSearch }) {
+function ChooseLocationsPage({ startDate, setStartDate, endDate, setEndDate, onSearch, originInput, setOriginInput }) {
     // const [startDate, setStartDate] = useState("");
     // const [endDate, setEndDate] = useState("");
     const [origin, setOrigin] = useState("");
