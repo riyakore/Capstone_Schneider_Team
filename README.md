@@ -3,6 +3,7 @@ CS 620 - Computer Science Capstone - Schneider Team
 ## Team members: Ali Lubbad, Maggie Lin, Kevin Williams, Riya Kore
 
 ## Platforms used:
+- Design - Figma https://www.figma.com/design/P8OnHt5cjF6B4R0BGa3qcU/Schneider?node-id=0-1&t=SW4hkOOcjjVCzc0y-1
 - Frontend - React + Vite
 - Backend - Django
 - Database - PostgreSQL
