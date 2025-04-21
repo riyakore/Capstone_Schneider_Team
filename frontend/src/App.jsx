@@ -1,110 +1,93 @@
-import { useState } from 'react';
-import Header from './components/Header';
-import ChooseLocationsPage from './pages/ChooseLocationsPage';
-import RoutesPage from './pages/RoutesPage';
+import { useState, useEffect } from "react";
+import Header             from "./components/Header";
+import ChooseLocationsPage from "./pages/ChooseLocationsPage";
+import RoutesPage          from "./pages/RoutesPage";
+import { getFavorites, saveFavorite, deleteFavorite } from "./api/favorites";
 
-// helper function to convert the date
-function formatAsYYYYMMDD(dateString) {
-  // Create a Date object from the string
-  const dateObj = new Date(dateString);
-  // Extract year, month, and day
-  const year = dateObj.getFullYear();
-  const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // getMonth() returns 0-indexed month
-  const day = String(dateObj.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
+/* util: Thu May 08 2025 → 2025‑05‑08 */
+const yyyymmdd = s => (s ? new Date(s).toISOString().slice(0, 10) : "");
 
-function App() {
+export default function App() {
+  /* dates */
   const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [endDate,   setEndDate]   = useState("");
+
+  /* view toggle + data */
   const [showRoutes, setShowRoutes] = useState(false);
-  const [routes, setRoutes] = useState([]);
-  const [currentUser, setCurrentUser] = useState("u1");
-  const [currentOrigin, setCurrentOrigin] = useState("");
-  const [currentDestination, setCurrentDestination] = useState("");
+  const [routes,     setRoutes]     = useState([]);
 
-  const handleSearch = async (origin, destination) => {
-    try {
-      const queryParams = new URLSearchParams();
-      if (origin) queryParams.append('origin', origin);
-      if (destination) queryParams.append('destination', destination);
-      // added the start and end dates to the query search
-      if (startDate) queryParams.append('start_date', formatAsYYYYMMDD(startDate));
-      if (endDate)   queryParams.append('end_date', formatAsYYYYMMDD(endDate));
+  /* users + favourites */
+  const [users,       setUsers]       = useState([]);
+  const [currentUser, setCurrentUser] = useState("");     // userid!
+  const [favorites,   setFavorites]   = useState([]);
 
-      console.log("Origin:", origin);
-      console.log("Destination:", destination);
-      console.log("Formatted Start Date:", formatAsYYYYMMDD(startDate));
-      console.log("Formatted End Date:", formatAsYYYYMMDD(endDate));
+  /* fetch users once */
+  useEffect(() => {
+    fetch("http://localhost:8000/api/users/")
+      .then(r => r.json())
+      .then(arr => {
+        setUsers(arr);
+        if (!currentUser && arr.length) setCurrentUser(arr[0].userid);
+      })
+      .catch(console.error);
+  }, []);
 
-      // we get the response from the backend search
-      const res = await fetch(`http://localhost:8000/api/search-loads/?${queryParams.toString()}`);
-      const data = await res.json();
+  /* fetch favourites when user changes */
+  useEffect(() => {
+    if (!currentUser) return;
+    getFavorites(currentUser).then(setFavorites).catch(console.error);
+  }, [currentUser]);
 
-      // Store the fetched routes in state
-      setRoutes(data);
-      setCurrentOrigin(origin);
-      setCurrentDestination(destination);
+  /* search */
+  const handleSearch = async filt => {
+    const qp = new URLSearchParams();
+    if (filt.origin)                qp.append("origin",        filt.origin);
+    if (filt.destination)           qp.append("destination",   filt.destination);
+    if (filt.start_date)            qp.append("start_date",    yyyymmdd(filt.start_date));
+    if (filt.end_date)              qp.append("end_date",      yyyymmdd(filt.end_date));
+    if (filt.capacity_type)         qp.append("capacity_type", filt.capacity_type);
+    if (filt.min_weight)            qp.append("total_weight",  filt.min_weight);
+    if (filt.min_loaded_rpm)        qp.append("loaded_rpm",    filt.min_loaded_rpm);
+    if (filt.is_hazardous != null)  qp.append("is_hazardous",  filt.is_hazardous);
+    if (filt.is_high_value != null) qp.append("is_high_value", filt.is_high_value);
+    if (filt.is_temperature_controlled != null)
+      qp.append("is_temperature_controlled", filt.is_temperature_controlled);
 
-      // Show the routes page
-      setShowRoutes(true);
-    } 
-    
-    catch (error) {
-      console.error("Search error:", error);
-    }
-    
+    const res  = await fetch(`http://localhost:8000/api/search-loads/?${qp}`);
+    const data = await res.json();
+    setRoutes(data);
+    setShowRoutes(true);
   };
 
-  const handleNavigateToHome = () => {
-    setShowRoutes(false);
-    setRoutes([]);
-    setCurrentOrigin("");
-    setCurrentDestination("");
-    setStartDate("");
-    setEndDate("");
-  };
+  /* save / delete favourite */
+  const handleSaveFavorite = fav =>
+    currentUser &&
+    saveFavorite(currentUser, fav)
+      .then(saved => setFavorites(f => [...f, saved]))
+      .catch(e => console.error("Failed to save favourite", e));
 
-  const handleNavigateToNextRoutes = async (origin) => {
-    try {
-      const queryParams = new URLSearchParams();
-      queryParams.append('origin', origin);
-      
-      const res = await fetch(`http://localhost:8000/api/search-loads/?${queryParams.toString()}`);
-      const data = await res.json();
+  const handleDeleteFavorite = favId =>
+    currentUser &&
+    deleteFavorite(currentUser, favId).then(() =>
+      setFavorites(f => f.filter(x => x.id !== favId))
+    );
 
-      setRoutes(data);
-      setCurrentOrigin(origin);
-      setCurrentDestination("");
-      setStartDate("");
-      setEndDate("");
-    } catch (error) {
-      console.error("Error fetching next routes:", error);
-    }
-  };
-
+  /* render */
   return (
     <div>
-      <Header currentUser={currentUser} setCurrentUser={setCurrentUser} />
+      <Header users={users} currentUser={currentUser} setCurrentUser={setCurrentUser} />
       {showRoutes ? (
-        <RoutesPage 
-          routes={routes} 
-          onNavigateToHome={handleNavigateToHome}
-          onNavigateToNextRoutes={handleNavigateToNextRoutes}
-        />
+        <RoutesPage routes={routes} />
       ) : (
-        // Pass handleSearch + date props to the choose page
         <ChooseLocationsPage
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
+          startDate={startDate} setStartDate={setStartDate}
+          endDate={endDate}     setEndDate={setEndDate}
+          favorites={favorites}
           onSearch={handleSearch}
+          onSaveFavorite={handleSaveFavorite}
+          onDeleteFavorite={handleDeleteFavorite}
         />
       )}
     </div>
   );
-
 }
-
-export default App;

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MapInterface from "../components/MapInterface";
 import Route from "../components/Route";
+import { getFavorites, saveFavorite, deleteFavorite } from '../api/favorites';
 
 export default function RoutesPage({ routes, onNavigateToHome, onNavigateToNextRoutes }) {
   const [expandedCard, setExpandedCard] = useState(null);

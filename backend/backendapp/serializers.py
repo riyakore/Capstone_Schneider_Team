@@ -73,3 +73,20 @@ class LoadPostingSerializer(serializers.ModelSerializer):
             for d in drops
         ]
         return None
+    
+class AppUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        password = serializers.CharField(write_only=True)
+        model  = AppUser
+        fields = ['userid','first_name','last_name','phone_number','username', 'password']
+        
+    def create(self, validated_data):
+        user = AppUser(**validated_data)
+        user.save()
+        return user
+        
+class FavoriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = Favorite
+        fields = ['id','user','origin','destination','transport_mode','capacity_type', 'min_loaded_rpm', 'min_weight']
+        read_only_fields = ['user']

@@ -84,15 +84,21 @@ class AppUser(models.Model):
     def __str__(self):
         return self.userid
     
+
 # this is the new model for favorites
 class Favorite(models.Model):
     user = models.ForeignKey(AppUser, related_name='favorites', on_delete=models.CASCADE)
     origin = models.CharField(max_length=100)
     destination = models.CharField(max_length=100)
-    # add additional filters as needed
     transport_mode = models.CharField(max_length=50, blank=True, null=True)
     capacity_type = models.CharField(max_length=50, blank=True, null=True)
+    min_loaded_rpm = models.FloatField(default=0)
+    min_weight = models.FloatField(default=0)
     
+    class Meta:
+        unique_together = (
+            ('user','origin','destination','transport_mode','capacity_type', 'min_loaded_rpm', 'min_weight'),
+        )
 
     def __str__(self):
         return f"Favorite for {self.user.userid}: {self.origin} → {self.destination}"
