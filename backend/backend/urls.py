@@ -17,11 +17,14 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from backendapp.views import LoadPostingListView, LoadPostingDetailView, search_load_postings
+from backendapp.views import LoadPostingListView, LoadPostingDetailView, search_load_postings, AppUserListCreate, FavoriteListCreate, FavoriteDetail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/load-postings/', LoadPostingListView.as_view(), name='loadposting-list'),
     path('api/load-postings/<str:load_id>/', LoadPostingDetailView.as_view(), name='loadposting-detail'),
     path('api/search-loads/', search_load_postings, name='search-load-postings'),
+    path('api/users/', AppUserListCreate.as_view(), name='users'),
+    path('api/users/<userid>/favorites/', FavoriteListCreate.as_view(), name='user-favorites'),
+    path('api/users/<userid>/favorites/<int:pk>/', FavoriteDetail.as_view(), name='user-favorite-detail'),
 ]

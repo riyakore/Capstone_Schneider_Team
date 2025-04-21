@@ -92,7 +92,13 @@ class Favorite(models.Model):
     destination = models.CharField(max_length=100)
     transport_mode = models.CharField(max_length=50, blank=True, null=True)
     capacity_type = models.CharField(max_length=50, blank=True, null=True)
+    min_loaded_rpm = models.FloatField(default=0)
+    min_weight = models.FloatField(default=0)
     
+    class Meta:
+        unique_together = (
+            ('user','origin','destination','transport_mode','capacity_type', 'min_loaded_rpm', 'min_weight'),
+        )
 
     def __str__(self):
         return f"Favorite for {self.user.userid}: {self.origin} → {self.destination}"

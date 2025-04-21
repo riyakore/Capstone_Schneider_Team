@@ -136,4 +136,27 @@ docker-compose exec backend python manage.py migrate
 ```console
 docker exec -it my_frontend /bin/sh
 ```
+4. Creating test users
+```console
+curl -X POST http://localhost:8000/api/users/ \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "userid":      "u1",
+    "first_name":  "Alice",
+    "last_name":   "Smith",
+    "phone_number":"555-1234",
+    "username":    "alice",
+    "password":    "secret1"
+  }'
 
+curl -X POST http://localhost:8000/api/users/ \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "userid":      "u2",
+    "first_name":  "Bob",
+    "last_name":   "Jones",
+    "phone_number":"555-5678",
+    "username":    "bob",
+    "password":    "secret2"
+  }'
+```

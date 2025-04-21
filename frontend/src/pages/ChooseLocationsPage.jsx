@@ -2,15 +2,37 @@ import { useState } from "react";
 import CalendarButton from "../components/CalendarButton";
 import CitySearchBox from "../components/CitySearchBox";
 import { FaLongArrowAltDown } from "react-icons/fa";
+// import { Heart } from "react-icons/fa";
+// import { AiFillHeart } from "react-icons/ai";
 
 function ChooseLocationsPage({ startDate, setStartDate, endDate, setEndDate, onSearch }) {
     const [origin, setOrigin] = useState("");
     const [destination, setDestination] = useState("");
-    const [pickupOnly, setPickupOnly] = useState(false); // Replaces old radio buttons
-    const [radius, setRadius] = useState(30);
+    const [includeOrigin, setIncludeOrigin] = useState(true);
+    const [includeDestination, setIncludeDestination] = useState(true);
+    const [capacityType, setCapacityType] = useState("");
+    const [hazardousOnly, setHazardousOnly] = useState(false);
+    const [highValueOnly, setHighValueOnly] = useState(false);
+    const [tempControlOnly, setTempControlOnly] = useState(false);
+
+    // see if the exact same favorites is already there
+    const existing = favorites.find(f =>
+        f.origin === origin &&
+        f.destination === destination &&
+        f.transport_mode === (pickupOnly?"PickupOnly":"PickupDelivery")
+    );
 
     const handleSearchClick = () => {
-        onSearch(origin, destination);
+        onSearch({
+            origin: includeOrigin ? origin : "",
+            destination: includeDestination ? destination : "",
+            start_date: startDate,
+            end_date: endDate,
+            capacity_type: capacityType,
+            is_hazardous: hazardousOnly,
+            is_high_value: highValueOnly,
+            is_temperature_controlled: tempControlOnly,
+        });
     };
 
     // Toggles between "Pickup Only" vs "Pickup/Delivery"
