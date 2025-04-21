@@ -20,6 +20,8 @@ function App() {
   const [showRoutes, setShowRoutes] = useState(false);
   const [routes, setRoutes] = useState([]);
   const [currentUser, setCurrentUser] = useState("u1");
+  const [currentOrigin, setCurrentOrigin] = useState("");
+  const [currentDestination, setCurrentDestination] = useState("");
 
   const handleSearch = async (origin, destination) => {
     try {
@@ -41,6 +43,8 @@ function App() {
 
       // Store the fetched routes in state
       setRoutes(data);
+      setCurrentOrigin(origin);
+      setCurrentDestination(destination);
 
       // Show the routes page
       setShowRoutes(true);
@@ -52,12 +56,42 @@ function App() {
     
   };
 
+  const handleNavigateToHome = () => {
+    setShowRoutes(false);
+    setRoutes([]);
+    setCurrentOrigin("");
+    setCurrentDestination("");
+    setStartDate("");
+    setEndDate("");
+  };
+
+  const handleNavigateToNextRoutes = async (origin) => {
+    try {
+      const queryParams = new URLSearchParams();
+      queryParams.append('origin', origin);
+      
+      const res = await fetch(`http://localhost:8000/api/search-loads/?${queryParams.toString()}`);
+      const data = await res.json();
+
+      setRoutes(data);
+      setCurrentOrigin(origin);
+      setCurrentDestination("");
+      setStartDate("");
+      setEndDate("");
+    } catch (error) {
+      console.error("Error fetching next routes:", error);
+    }
+  };
+
   return (
     <div>
       <Header currentUser={currentUser} setCurrentUser={setCurrentUser} />
       {showRoutes ? (
-        // Pass the routes to the routes page
-        <RoutesPage routes={routes} />
+        <RoutesPage 
+          routes={routes} 
+          onNavigateToHome={handleNavigateToHome}
+          onNavigateToNextRoutes={handleNavigateToNextRoutes}
+        />
       ) : (
         // Pass handleSearch + date props to the choose page
         <ChooseLocationsPage
