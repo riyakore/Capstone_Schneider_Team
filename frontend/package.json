@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.2",
+    "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.0.7",
     "@trimblemaps/trimblemaps-js": "^3.22.1",
     "date-fns": "^4.1.0",
