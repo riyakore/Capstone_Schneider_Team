@@ -77,7 +77,25 @@ export default function App() {
     <div>
       <Header users={users} currentUser={currentUser} setCurrentUser={setCurrentUser} />
       {showRoutes ? (
-        <RoutesPage routes={routes} />
+        <RoutesPage 
+        routes={routes} 
+        onNavigateToHome={() => setShowRoutes(false)}
+        onNavigateToNextRoutes={(destination) => {
+          // Use the current destination as the new origin
+          handleSearch({
+            origin: destination,
+            start_date: startDate,
+            end_date: endDate,
+            // Keep other filters the same
+            capacity_type: document.querySelector('select[name="capacity_type"]')?.value,
+            min_weight: document.querySelector('input[name="min_weight"]')?.value,
+            min_loaded_rpm: document.querySelector('input[name="min_loaded_rpm"]')?.value,
+            is_hazardous: document.querySelector('input[name="is_hazardous"]')?.checked,
+            is_high_value: document.querySelector('input[name="is_high_value"]')?.checked,
+            is_temperature_controlled: document.querySelector('input[name="is_temperature_controlled"]')?.checked
+          });
+        }}
+      />
       ) : (
         <ChooseLocationsPage
           startDate={startDate} setStartDate={setStartDate}

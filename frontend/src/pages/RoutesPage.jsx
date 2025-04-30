@@ -5,6 +5,7 @@ import { getFavorites, saveFavorite, deleteFavorite } from '../api/favorites';
 
 export default function RoutesPage({ routes, onNavigateToHome, onNavigateToNextRoutes }) {
   const [expandedCard, setExpandedCard] = useState(null);
+  const [expandedRouteId, setExpandedRouteId] = useState(null);
 
   // if the search doesn't find any loads, then you return this
   if (!routes || routes.length === 0) {
@@ -64,33 +65,32 @@ export default function RoutesPage({ routes, onNavigateToHome, onNavigateToNextR
   });
 
   const handleToggle = (uniqueKey) => {
-    if (expandedCard === uniqueKey) {
-      setExpandedCard(null);
-    } else {
-      setExpandedCard(uniqueKey);
-    }
+    setExpandedCard((prev) => (prev === uniqueKey ? null : uniqueKey));
+    setExpandedRouteId((prev) => (prev === uniqueKey ? null : uniqueKey));
   };
 
   return (
-    <div className="flex h-[calc(100vh-80px)]">
-      <div className="w-1/2 p-4 overflow-y-auto">
-        <div className="space-y-4">
-          {subRoutes.map((route, index) => (
+    <div className="flex w-full h-[calc(100vh-80px)]">
+      {/* Left side: the list of sub-route cards */}
+      <div className="w-[45%] overflow-y-auto p-4 bg-gray-50">
+        {subRoutes.map((subRoute, idx) => {
+          const uniqueKey = `${subRoute.load_id}-${idx}`;
+          const isExpanded = expandedCard === uniqueKey;
+
+          return (
             <Route
-              key={`${route.load_id}-${route.dropStop?.stop_id}`}
-              route={route}
-              handleToggle={() => handleToggle(`${route.load_id}-${route.dropStop?.stop_id}`)}
-              isExpanded={expandedCard === `${route.load_id}-${route.dropStop?.stop_id}`}
+              key={uniqueKey}
+              route={subRoute}
+              isExpanded={isExpanded}
+              handleToggle={() => handleToggle(uniqueKey)}
               setExpandedCard={setExpandedCard}
               onNavigateToHome={onNavigateToHome}
               onNavigateToNextRoutes={onNavigateToNextRoutes}
             />
-          ))}
-        </div>
+          );
+        })}
       </div>
-      <div className="w-1/2">
-        <MapInterface routes={subRoutes} />
+      <MapInterface routes={subRoutes} expandedRouteId={expandedRouteId}/>
       </div>
-    </div>
   );
 }
