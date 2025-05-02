@@ -10,8 +10,8 @@ export default function RoutesPage({ routes, onNavigateToHome, onNavigateToNextR
   // if the search doesn't find any loads, then you return this
   if (!routes || routes.length === 0) {
     return (
-      <div className="flex h-[calc(100vh-80px)]">
-        <div className="w-1/2 p-4 flex items-center justify-center">
+      <div className="flex flex-col md:flex-row h-[calc(100vh-80px)]">
+        <div className="w-full md:w-1/2 p-4 flex items-center justify-center">
           <div>
             <h2 className="text-xl font-bold">Sorry, no loads available!</h2>
             <button
@@ -22,7 +22,7 @@ export default function RoutesPage({ routes, onNavigateToHome, onNavigateToNextR
             </button>
           </div>
         </div>
-        <div className="w-1/2">
+        <div className="w-full md:w-1/2 h-[40vh] md:h-full">
           <MapInterface routes={[]} />
         </div>
       </div>
@@ -70,9 +70,9 @@ export default function RoutesPage({ routes, onNavigateToHome, onNavigateToNextR
   };
 
   return (
-    <div className="flex w-full h-[calc(100vh-80px)]">
-      {/* Left side: the list of sub-route cards */}
-      <div className="w-[45%] overflow-y-auto p-4 bg-gray-50">
+    <div className="flex flex-col-reverse md:flex-row h-[calc(100vh-80px)]">
+      {/* Cards section - full width on mobile, 45% on desktop */}
+      <div className="w-full md:w-[45%] h-[calc(60vh-80px)] md:h-full overflow-y-auto p-4 bg-gray-50">
         {subRoutes.map((subRoute, idx) => {
           const uniqueKey = `${subRoute.load_id}-${subRoute.dropStop?.stop_id}`;
           const isExpanded = expandedCard === uniqueKey;
@@ -90,7 +90,8 @@ export default function RoutesPage({ routes, onNavigateToHome, onNavigateToNextR
           );
         })}
       </div>
-      <div className="w-[55%]">
+
+      <div className="w-full md:w-[55%] h-[40vh] md:h-full">
         <MapInterface 
           routes={subRoutes} 
           expandedRouteId={expandedRouteId}

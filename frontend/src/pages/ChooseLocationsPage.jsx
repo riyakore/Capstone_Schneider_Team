@@ -103,7 +103,7 @@ export default function ChooseLocationsPage({
     >
       {/* ───── favourites banner ───── */}
       {favorites.length > 0 && (
-        <div className="bg-white/90 px-6 py-4 rounded-lg shadow-lg w-full max-w-3xl mb-6">
+        <div className="bg-white/90 px-4 sm:px-6 py-4 rounded-lg shadow-lg w-full max-w-3xl mb-4 sm:mb-6">
           <h3 className="font-semibold mb-3">Quick Favorites</h3>
           <div className="overflow-x-auto flex gap-4">
             {favorites.map(f => (
@@ -127,11 +127,11 @@ export default function ChooseLocationsPage({
       )}
 
       {/* ───── main search card ───── */}
-      <div className="bg-white bg-opacity-80 px-10 py-10 rounded-lg shadow-lg w-full max-w-3xl">
-        <h2 className="text-3xl font-bold text-center mb-6 text-primary">Search for Loads</h2>
+      <div className="bg-white bg-opacity-80 px-4 sm:px-10 py-6 sm:py-10 rounded-lg shadow-lg w-full max-w-3xl">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6 text-primary">Search for Loads</h2>
 
         {/* dates */}
-        <div className="flex justify-center gap-60 mb-8">
+        <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-60 mb-8">
           <div className="flex flex-col items-center">
             <label className="font-semibold mb-1">From:</label>
             <CalendarButton selectedDate={startDate} setSelectedDate={setStartDate}/>
@@ -180,14 +180,14 @@ export default function ChooseLocationsPage({
 
           <div className={`space-y-6 ${filtersOn ? "" : "opacity-40 pointer-events-none"}`}>
             {/* capacity pills */}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <span className="font-medium mr-2">Capacity Type</span>
               {["Any","Power Only","Power Only Team"].map(opt => {
                 const active = capacityType === (opt === "Any" ? "" : opt);
                 return (
                   <button key={opt}
                           onClick={() => setCapacityType(opt === "Any" ? "" : opt)}
-                          className={`px-4 py-1 rounded-md border text-sm transition
+                          className={`px-3 sm:px-4 py-1 rounded-md border text-sm transition
                                       ${active ? "border-primary text-primary font-semibold"
                                                : "border-gray-300 text-gray-500"}`}>
                     {opt}
@@ -197,7 +197,7 @@ export default function ChooseLocationsPage({
             </div>
 
             {/* item type pills */}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <span className="font-medium mr-2">Item Type</span>
               {[
                 { lbl:"Hazardous",            flag:haz,     set:setHaz },
@@ -206,7 +206,7 @@ export default function ChooseLocationsPage({
               ].map(({lbl,flag,set}) => (
                 <button key={lbl}
                         onClick={() => set(x=>!x)}
-                        className={`px-4 py-1 rounded-md border text-sm transition
+                        className={`px-3 sm:px-4 py-1 rounded-md border text-sm transition
                                     ${flag ? "border-primary text-primary font-semibold"
                                            : "border-gray-300 text-gray-500"}`}>
                   {lbl}
@@ -215,7 +215,7 @@ export default function ChooseLocationsPage({
             </div>
 
             {/* numbers */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label className="font-medium block mb-1">Minimum Weight (lbs)</label>
                 <input type="number" min="0" value={minW}
@@ -235,14 +235,14 @@ export default function ChooseLocationsPage({
         </div>
 
         {/* save favourite */}
-        <div className="flex items-center mt-10 mb-6">
+        <div className="flex items-center mt-8 sm:mt-10 mb-4 sm:mb-6">
           <HeartIcon className={`w-6 h-6 mr-3 ${saveFav ? "text-primary" : "text-black"}`} />
           <h3 className="font-semibold text-lg">Save to My Favorites</h3>
           <Toggle checked={saveFav} onChange={() => setSaveFav(x=>!x)} className="ml-auto"/>
         </div>
 
         {/* button */}
-        <div className="text-center mt-10">
+        <div className="text-center mt-8 sm:mt-10">
           <button
             onClick={runSearch}
             className="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-6 rounded-lg shadow-md">

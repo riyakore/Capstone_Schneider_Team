@@ -27,30 +27,30 @@ function Header({ currentUser, setCurrentUser }) {
     return (
         <div>
         {/* top logo row */}
-        <div className="flex items-center justify-between p-3">
+        <div className="flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-between p-2 sm:p-3 relative">
             <img
-            src="/images/logo.png"
-            className="w-3xs h-12 hover:cursor-pointer hover:scale-105 duration-100"
-            onClick={() => (window.location.href = "https://schneider.com/")}
+                src="/images/logo.png"
+                className="w-3xs h-6 sm:h-12 mb-1 sm:mb-0 hover:cursor-pointer hover:scale-105 duration-100"
+                onClick={() => (window.location.href = "https://schneider.com/")}
             />
+            {/* Title: centered below logo on mobile, absolutely centered on desktop */}
             <h1
-            className="absolute left-1/2 transform -translate-x-1/2 text-primary
-                        font-extrabold text-3xl hover:cursor-pointer hover:scale-105
-                        duration-100"
-            onClick={() => window.location.reload()}
+                className="text-primary font-extrabold text-lg sm:text-3xl hover:cursor-pointer hover:scale-105 duration-100 whitespace-nowrap mt-1 sm:mt-0
+                sm:absolute sm:left-1/2 sm:transform sm:-translate-x-1/2"
+                onClick={() => window.location.reload()}
             >
-            Freight Wizard
+                Freight Wizard
             </h1>
         </div>
     
         {/* user selector */}
-        <div className="flex items-end justify-end p-3 border-t-4 border-grey-100">
-            <label className="mr-2 font-semibold">Current User:</label>
+        <div className="flex items-end justify-end p-2 sm:p-3 border-t-4 border-grey-100">
+            <label className="mr-2 text-xs sm:text-base font-semibold">Current User:</label>
     
             <select
             value={currentUser}
             onChange={(e) => setCurrentUser(e.target.value)}
-            className="border border-gray-300 rounded px-2 disabled:opacity-60"
+            className="border border-gray-300 rounded px-2 text-xs sm:text-base disabled:opacity-60 max-w-[150px] sm:max-w-none"
             disabled={loading || users.length === 0}
             >
             {/* fallback while loading */}
