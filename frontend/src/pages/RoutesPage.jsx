@@ -74,7 +74,7 @@ export default function RoutesPage({ routes, onNavigateToHome, onNavigateToNextR
       {/* Left side: the list of sub-route cards */}
       <div className="w-[45%] overflow-y-auto p-4 bg-gray-50">
         {subRoutes.map((subRoute, idx) => {
-          const uniqueKey = `${subRoute.load_id}-${idx}`;
+          const uniqueKey = `${subRoute.load_id}-${subRoute.dropStop?.stop_id}`;
           const isExpanded = expandedCard === uniqueKey;
 
           return (
@@ -90,7 +90,12 @@ export default function RoutesPage({ routes, onNavigateToHome, onNavigateToNextR
           );
         })}
       </div>
-      <MapInterface routes={subRoutes} expandedRouteId={expandedRouteId}/>
+      <div className="w-[55%]">
+        <MapInterface 
+          routes={subRoutes} 
+          expandedRouteId={expandedRouteId}
+        />
       </div>
+    </div>
   );
 }

@@ -40,12 +40,22 @@ function MapInterface({routes, expandedRouteId}) {
     }, []);
 
     useEffect(() => {
-        if (!map || !expandedRouteId) {
+        if (!map || !expandedRouteId || !routes || routes.length === 0) {
             setOriginCoords([]);
             setDestCoords([]);
             return;
         }
-        const route = routes.find(r => r.load_id == expandedRouteId.substring(0, expandedRouteId.indexOf("-")));
+
+        const route = routes.find(r => {
+            const routeId = `${r.load_id}-${r.dropStop?.stop_id}`;
+            return routeId === expandedRouteId;
+        });
+
+        if (!route || !route.pickupStop || !route.dropStop) {
+            console.warn('Route or stop data is missing');
+            return;
+        }
+
         TrimbleMaps.Geocoder.geocode({
             address: {
                 addr: route.pickupStop.address_line_1,
