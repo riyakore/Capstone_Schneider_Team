@@ -1,5 +1,6 @@
 # Capstone_Schneider_Team
 CS 620 - Computer Science Capstone - Schneider Team
+Github Link: https://github.com/riyakore/Capstone_Schneider_Team
 ## Team members: Ali Lubbad, Maggie Lin, Kevin Williams, Riya Kore
 
 ## Platforms used:
@@ -116,6 +117,19 @@ docker-compose exec backend python manage.py import_loadposting /app/data/load_p
 docker-compose exec backend python manage.py import_loadstop /app/data/load_stop_dump.csv
 ```
 
+## To run all these commands together, we have a shell script.
+You can run this shell script and have our web app up and running.
+
+1. Give execute permissions to the shell script.
+```console
+chmod u+rwx build.sh
+```
+
+2. Run the script.
+```console
+./build.sh
+```
+
 ## Extra commands in case you need them
 
 1. Regenerating the pipfile.lock file in the backend directory.
@@ -161,3 +175,46 @@ curl -X POST http://localhost:8000/api/users/ \
     "password":    "secret2"
   }'
 ```
+
+## How does our code work?
+
+Our application is structured into a modern full-stack architecture with a React + Vite frontend, a Django REST API backend, and a PostgreSQL database, all containerized via Docker for ease of development and deployment.
+
+### Backend (Django)
+- The backend exposes RESTful APIs that allow fetching available load postings, corresponding stops, and user management.
+- Data is imported into the PostgreSQL database from CSV files using custom Django management commands (import_loadposting, import_loadstop).
+- Load data is filtered on the backend based on user search criteria (dates, pickup/destination location, radius).
+- Django handles authentication, permissions, and admin interface access for managing data visually.
+
+### Frontend (React + Vite)
+- Users can input pickup and drop-off locations, select date ranges, and choose radius-based filtering.
+- The app makes API calls to the backend to retrieve filtered search results and displays them in both a list and interactive map view (Trimble maps).
+- Search preferences can be saved for future use via API requests.
+- Loads are visualized with route and logistical data such as earnings, rate per mile, distance, and stop points.
+
+### Integratio (Docker)
+- Docker Compose coordinates the setup of three containers: frontend, backend, and db.
+- Environment variables and API keys are passed securely via .env files and mounted during container initialization.
+- The build.sh script automates the clean start-up of the entire app including builds, migrations, and test data loading.
+
+So basically, when the user inputs their origin, destination, radius and additional filters, that goes in the query to the backend. The backend produces a response and that is displayed again by the frontend. The backend, frontend and the database communicate via ports.
+
+## What works
+- Load search based on partial or full criteria (pickup, drop-off, date ranges, additional filters).
+- Map-based visualization of the loads and stop points.
+- Basic filtering and sorting features.
+- Dockerized environment that works on macOS, Windows, and Linux with minimal setup.
+- Admin interface for database interaction and debugging.
+- Frontend interface for the users to search.
+- Mobile version of the web app.
+- Additional loads to book after booking the current load, so extended search.
+
+## What Doesn’t Work
+- Radius feature.
+- The origin drop down is a bit buggy but does the job of searching properly.
+
+## What we would work on next
+- Implementing the Radius feature
+- Testing the application to see if there are any more bugs.
+- Hopefully work with real time data as well.
+- Integrate user profile and authentication for customized search settings, so a sign up or sign in button/screen.
